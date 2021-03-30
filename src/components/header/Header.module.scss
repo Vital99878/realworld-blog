@@ -1,0 +1,85 @@
+.header-container {
+  background-color: #fff;
+  margin-bottom: 26px;
+}
+
+.header {
+  padding: 13px 22px 13px 22px;
+  display: flex;
+  align-items: center;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.title {
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 28px;
+  margin-right: auto;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  margin-right: 27px;
+
+  &__name {
+    margin-right: 13px;
+    font-size: 18px;
+    line-height: 28px;
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  &__avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+  }
+}
+
+.button {
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 28px;
+  padding: 10px 18px;
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.85);
+
+  &--sign-up {
+    color:#52C41A;
+    border: 1px solid #52C41A;
+
+    &:hover {
+      border-color: #1890FF;
+    }
+  }
+
+  &--sign-in {
+    margin-right: 19px;
+
+    &:hover {
+      color: #1890FF;
+      box-shadow: 0px 0px 0px 1px #1890FF;
+    }
+  }
+
+  &--log-out {
+    border: 1px solid #000;
+  }
+}
+
+.create-article {
+  font-size: 14px;
+  line-height: 22px;
+  color: #52C41A;
+  border: 1px solid #52C41A;
+  border-radius: 5px;
+  padding: 6px 10px;
+  margin-right: 26px;
+}
+
+

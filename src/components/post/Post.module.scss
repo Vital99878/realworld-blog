@@ -1,0 +1,137 @@
+.post {
+  margin: 0 auto;
+  max-width: 941px;
+  padding: 15px 14px 24px 19px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+  border-radius: 5px;
+
+  &:not(:last-child) {
+    margin-bottom: 26px;
+  }
+
+  &__header {
+    display: flex;
+    margin-bottom: 4px;
+  }
+
+  &__info {
+    margin-right: auto;
+  }
+
+  &__title-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &__title {
+    font-size: 20px;
+    line-height: 28px;
+    color: #1890FF;
+    margin-bottom: 4px;
+    margin-right: 13px;
+  }
+
+  &__button-like {
+    width: 16px;
+    height: 15px;
+    border: none;
+    background: transparent;
+    outline: none;
+    cursor: pointer;
+    background-image: url('./img/like.svg');
+    background-repeat: no-repeat;
+    margin-right: 5px;
+
+    &--liked {
+      background-image: url('./img/liked.svg');
+    }
+  }
+
+  &__likes {
+    font-size: 12px;
+    line-height: 22px;
+    color: rgba(0, 0, 0, 0.75);
+  }
+  
+  &__tag {
+    display: inline-block;
+    font-size: 12px;
+    line-height: 15px;
+    color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
+    padding: 2px 6px 3px 5px ;
+
+    &:not(:last-child) {
+      margin-right: 8px;
+    }
+  }
+
+  &__author {
+    display: flex;
+    align-items: center;
+  }
+
+  &__author-info {
+    display: flex;
+    flex-direction: column;
+    margin-right: 12px;
+  }
+
+  &__author-name {
+    font-size: 18px;
+    line-height: 28px;
+    align-self: flex-end;
+  }
+
+  &__autor-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+  }
+  
+  &__date {
+    font-size: 12px;
+    line-height: 22px;
+    color: rgba(0, 0, 0, 0.5);
+    align-self: flex-end;
+  }
+  
+  &__description {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__description-text {
+    max-width: 750px;
+  }
+
+  &__button-delete {
+    font-size: 14px;
+    line-height: 22px;
+    color: #F5222D;
+    background-color: transparent;
+    border: 1px solid #F5222D;
+    border-radius: 5px;
+    padding: 6px 17px 5px;
+    margin-right: 12px;
+    cursor: pointer;
+    outline: none;
+  }
+
+  &__button-edit {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 22px;
+    color: #52C41A;;
+    background-color: transparent;
+    border: 1px solid #52C41A;;
+    border-radius: 5px;
+    padding: 6px 19px 5px;
+    cursor: pointer;
+    outline: none;
+  }
+  
+}
