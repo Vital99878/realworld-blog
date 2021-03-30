@@ -12,10 +12,10 @@ const getSkipForPagination = currentPage => (currentPage - 1) * 5;
 
 const cn = classnames.bind(styles);
 
-const PostsList = ({ posts, isLoading, getPosts, postsCount, currentPage, setCurrentPage }) => {
+const PostsList = ({ posts, isLoading, getPosts, postsCount, currentPage, setCurrentPage, token }) => {
 
   useEffect(() => {
-    getPosts(getSkipForPagination(currentPage));
+    getPosts(getSkipForPagination(currentPage), token);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ currentPage ])
 
@@ -40,8 +40,9 @@ const PostsList = ({ posts, isLoading, getPosts, postsCount, currentPage, setCur
   )
 }
 
-const mapStateToProps = ({ posts }) => ({
+const mapStateToProps = ({ posts, user }) => ({
   ...posts,
+  ...user,
 });
 
 const mapDispatchToProps = {
@@ -52,6 +53,10 @@ const mapDispatchToProps = {
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsList);
 
+PostsList.defaultProps = {
+  token: '',
+}
+
 PostsList.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.object).isRequired,
   isLoading: PropTypes.bool.isRequired,
@@ -59,5 +64,6 @@ PostsList.propTypes = {
   setCurrentPage: PropTypes.func.isRequired,
   postsCount: PropTypes.number.isRequired,
   currentPage: PropTypes.number.isRequired,
+  token: PropTypes.string,
 }
 

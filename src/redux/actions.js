@@ -72,16 +72,16 @@ export const setDislikePostAction = payload => ({
 });
 
 
-export const getPostsThunk = take => async dispatch => {
+export const getPostsThunk = (take, token) => async dispatch => {
   dispatch(startLoadingAction());
-  const { articles, articlesCount } = await getPosts(take);
+  const { articles, articlesCount } = await getPosts(take, token);
   dispatch(setPostsAction(articles));
   dispatch(setPostsCountAction(articlesCount));
   dispatch(stopLoadingAction());
 };
 
-export const getPostThunk = slug => async dispatch => {
-  const { article } = await getPost(slug);
+export const getPostThunk = (slug, token) => async dispatch => {
+  const { article } = await getPost(slug, token);
   dispatch(setPostAction(article));
 };
 

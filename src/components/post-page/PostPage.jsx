@@ -23,7 +23,7 @@ const PostPage = ({ openedPost, isSignUp, getPost, username, deletePost, likePos
   const { slug } = useParams();
 
   useEffect(() => {
-    getPost(slug).then(() => setIsLoading(false));
+    getPost(slug, token).then(() => setIsLoading(false));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ ]);
 

@@ -1,16 +1,32 @@
+/* eslint-disable no-unused-expressions */
 export default class RealworldBlogApi {
   constructor() {
     this.API_BASE = 'https://conduit.productionready.io/api/';
 
-    this.getPosts = async take => {
-      const response = await fetch(`${this.API_BASE}articles?limit=5&offset=${take}`);
+    this.getPosts = async (take, token) => {
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json; charset=utf-8');
+      token ? myHeaders.append('Authorization', `Token ${token}`) : null;
+
+      const response = await fetch(`${this.API_BASE}articles?limit=5&offset=${take}`, {
+        method: 'GET',
+        headers: myHeaders,
+      });
+      
       const body = await response.json();
   
       return body;
     }
 
-    this.getPost = async slug => {
-      const response = await fetch(`${this.API_BASE}articles/${slug}`);
+    this.getPost = async (slug, token) => {
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json; charset=utf-8');
+      token ? myHeaders.append('Authorization', `Token ${token}`) : null;
+
+      const response = await fetch(`${this.API_BASE}articles/${slug}`, {
+        method: 'GET',
+        headers: myHeaders,
+      });
       const body = await response.json();
 
       return body;
