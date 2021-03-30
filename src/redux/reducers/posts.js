@@ -38,7 +38,6 @@ const posts = (state = initialState, { type, payload }) => {
       return { ...state, openedPost: payload};
 
     case SET_LIKE_POST_ACTION:
-      console.log(payload);
       return { ...state, openedPost: payload, posts: state.posts.map(post => post.slug === payload.slug ? payload : post)};
 
     case SET_DISLIKE_POST_ACTION:
