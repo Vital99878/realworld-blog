@@ -10,7 +10,6 @@ import userAvatar from './img/Rectangle-1.png';
 import styles from './Post.module.scss';
 import { likePostThunk, dislikePostThunk } from '../../redux/actions';
 
-
 const cn = classnames.bind(styles);
 
 const CLASS_NAME = 'post';
@@ -18,20 +17,26 @@ const CLASS_NAME = 'post';
 const Post = ({ post, isSignUp, likePost, dislikePost, token }) => {
   const { title, description, favoritesCount, author, tagList, createdAt, slug, favorited } = post;
 
-  const tagsList = tagList.map(tag => <li key={uuidv4()} className={cn(`${CLASS_NAME}__tag`)}>{tag}</li>);
+  const tagsList = tagList.map((tag) => (
+    <li key={uuidv4()} className={cn(`${CLASS_NAME}__tag`)}>
+      {tag}
+    </li>
+  ));
 
   let toogleLike;
 
-  favorited ? toogleLike = dislikePost : toogleLike = likePost;
+  favorited ? (toogleLike = dislikePost) : (toogleLike = likePost);
 
-  return  (
+  return (
     <li className={cn(CLASS_NAME)}>
       <header className={cn(`${CLASS_NAME}__header`)}>
         <div className={cn(`${CLASS_NAME}__info`)}>
           <div className={cn(`${CLASS_NAME}__title-wrapper`)}>
-            <Link className={cn(`${CLASS_NAME}__title`)} to={`/articles/${slug}`}>{title}</Link>
-            <button 
-              className={cn(`${CLASS_NAME}__button-like`, favorited && `${CLASS_NAME}__button-like--liked`)} 
+            <Link className={cn(`${CLASS_NAME}__title`)} to={`/articles/${slug}`}>
+              {title}
+            </Link>
+            <button
+              className={cn(`${CLASS_NAME}__button-like`, favorited && `${CLASS_NAME}__button-like--liked`)}
               disabled={!isSignUp}
               type="button"
               label="Like"
@@ -39,9 +44,7 @@ const Post = ({ post, isSignUp, likePost, dislikePost, token }) => {
             />
             <span className={cn(`${CLASS_NAME}__likes`)}>{favoritesCount}</span>
           </div>
-          <ul className={cn(`${CLASS_NAME}__tags`)}>
-            {tagsList.length ? tagsList : 'no tags'}
-          </ul>
+          <ul className={cn(`${CLASS_NAME}__tags`)}>{tagsList.length ? tagsList : 'no tags'}</ul>
         </div>
         <div className={cn(`${CLASS_NAME}__author`)}>
           <div className={cn(`${CLASS_NAME}__author-info`)}>
@@ -53,12 +56,12 @@ const Post = ({ post, isSignUp, likePost, dislikePost, token }) => {
       </header>
       <p className={cn(`${CLASS_NAME}__description`)}>{description}</p>
     </li>
-  )
+  );
 };
 
 const mapStateToProps = ({ user, posts }) => ({
   ...user,
-  ...posts, 
+  ...posts,
 });
 
 const mapDispatchToProps = {
@@ -70,7 +73,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Post);
 
 Post.defaultProps = {
   token: '',
-}
+};
 
 Post.propTypes = {
   post: PropTypes.objectOf(PropTypes.any).isRequired,
@@ -78,4 +81,4 @@ Post.propTypes = {
   token: PropTypes.string,
   likePost: PropTypes.func.isRequired,
   dislikePost: PropTypes.func.isRequired,
-}
+};

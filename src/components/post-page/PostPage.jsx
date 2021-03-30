@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
-import { Link, Redirect, useParams } from 'react-router-dom'
+import { Link, Redirect, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
@@ -18,29 +18,32 @@ const cn = classnames.bind(styles);
 const CLASS_NAME = 'post';
 
 const PostPage = ({ openedPost, isSignUp, getPost, username, deletePost, likePost, dislikePost, token }) => {
-
   const [isLoading, setIsLoading] = useState(true);
   const { slug } = useParams();
 
   useEffect(() => {
     getPost(slug, token).then(() => setIsLoading(false));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (isLoading) {
-    return <Spinner />
+    return <Spinner />;
   }
 
   if (!openedPost) {
-    return <Redirect to="/" />
+    return <Redirect to="/" />;
   }
 
   let toogleLike;
 
-  openedPost.favorited ? toogleLike = dislikePost : toogleLike = likePost;
+  openedPost.favorited ? (toogleLike = dislikePost) : (toogleLike = likePost);
 
   const { title, favoritesCount, tagList, author, createdAt, description, body } = openedPost;
-  const tagsList = tagList.map(tag => <li key={uuidv4()} className={cn(`${CLASS_NAME}__tag`)}>{tag}</li>);
+  const tagsList = tagList.map((tag) => (
+    <li key={uuidv4()} className={cn(`${CLASS_NAME}__tag`)}>
+      {tag}
+    </li>
+  ));
 
   return (
     <div className={cn(CLASS_NAME)}>
@@ -48,8 +51,8 @@ const PostPage = ({ openedPost, isSignUp, getPost, username, deletePost, likePos
         <div className={cn(`${CLASS_NAME}__info`)}>
           <div className={cn(`${CLASS_NAME}__title-wrapper`)}>
             <h2 className={cn(`${CLASS_NAME}__title`)}>{title}</h2>
-            <button 
-              className={cn(`${CLASS_NAME}__button-like`, openedPost.favorited && `${CLASS_NAME}__button-like--liked`)} 
+            <button
+              className={cn(`${CLASS_NAME}__button-like`, openedPost.favorited && `${CLASS_NAME}__button-like--liked`)}
               disabled={!isSignUp}
               type="button"
               label="Like"
@@ -57,9 +60,7 @@ const PostPage = ({ openedPost, isSignUp, getPost, username, deletePost, likePos
             />
             <span className={cn(`${CLASS_NAME}__likes`)}>{favoritesCount}</span>
           </div>
-          <ul className={cn(`${CLASS_NAME}__tags`)}>
-            {tagsList.length ? tagsList : 'no tags'}
-          </ul>
+          <ul className={cn(`${CLASS_NAME}__tags`)}>{tagsList.length ? tagsList : 'no tags'}</ul>
         </div>
         <div className={cn(`${CLASS_NAME}__author`)}>
           <div className={cn(`${CLASS_NAME}__author-info`)}>
@@ -71,27 +72,31 @@ const PostPage = ({ openedPost, isSignUp, getPost, username, deletePost, likePos
       </header>
       <div className={cn(`${CLASS_NAME}__description`)}>
         <p className={cn(`${CLASS_NAME}__description-text`)}>{description}</p>
-        {username === openedPost.author.username &&  <div>
-          <Popconfirm
-            placement="rightTop"
-            title="Are you sure to delete this article?"
-            onConfirm={() => deletePost(slug, token)}
-            okText="Yes"
-            cancelText="No"
-          >
-            <button type="button" className={cn(`${CLASS_NAME}__button-delete`)}>Delete</button>
-          </Popconfirm>
-          <Link 
-            to={{pathname: `/articles/${slug}/edit`, state: {updatePost: openedPost}}} 
-            className={cn(`${CLASS_NAME}__button-edit`)}
-          >
-            Edit
-          </Link>
-        </div>}
+        {username === openedPost.author.username && (
+          <div>
+            <Popconfirm
+              placement="rightTop"
+              title="Are you sure to delete this article?"
+              onConfirm={() => deletePost(slug, token)}
+              okText="Yes"
+              cancelText="No"
+            >
+              <button type="button" className={cn(`${CLASS_NAME}__button-delete`)}>
+                Delete
+              </button>
+            </Popconfirm>
+            <Link
+              to={{ pathname: `/articles/${slug}/edit`, state: { updatePost: openedPost } }}
+              className={cn(`${CLASS_NAME}__button-edit`)}
+            >
+              Edit
+            </Link>
+          </div>
+        )}
       </div>
       <ReactMarkdown plugins={[gfm]}>{body}</ReactMarkdown>
     </div>
-  )
+  );
 };
 
 const mapStateToProps = ({ posts, user }) => ({
@@ -104,7 +109,7 @@ const mapDispatchToProps = {
   deletePost: deletePostThunk,
   likePost: likePostThunk,
   dislikePost: dislikePostThunk,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostPage);
 
@@ -112,7 +117,7 @@ PostPage.defaultProps = {
   openedPost: {},
   username: '',
   token: '',
-}
+};
 
 PostPage.propTypes = {
   openedPost: PropTypes.objectOf(PropTypes.any),
@@ -123,4 +128,4 @@ PostPage.propTypes = {
   deletePost: PropTypes.func.isRequired,
   likePost: PropTypes.func.isRequired,
   dislikePost: PropTypes.func.isRequired,
-}
+};

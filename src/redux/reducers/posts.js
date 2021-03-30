@@ -33,15 +33,23 @@ const posts = (state = initialState, { type, payload }) => {
 
     case SET_CURRENT_PAGE_ACTION:
       return { ...state, currentPage: payload };
-    
+
     case SET_POST_ACTION:
-      return { ...state, openedPost: payload};
+      return { ...state, openedPost: payload };
 
     case SET_LIKE_POST_ACTION:
-      return { ...state, openedPost: payload, posts: state.posts.map(post => post.slug === payload.slug ? payload : post)};
+      return {
+        ...state,
+        openedPost: payload,
+        posts: state.posts.map((post) => (post.slug === payload.slug ? payload : post)),
+      };
 
     case SET_DISLIKE_POST_ACTION:
-      return { ...state, openedPost: payload, posts: state.posts.map(post => post.slug === payload.slug ? payload : post)};
+      return {
+        ...state,
+        openedPost: payload,
+        posts: state.posts.map((post) => (post.slug === payload.slug ? payload : post)),
+      };
 
     default:
       return state;

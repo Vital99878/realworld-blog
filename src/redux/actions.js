@@ -1,4 +1,4 @@
-import RealworldBlogApi  from '../api/realworldBlogApi';
+import RealworldBlogApi from '../api/realworldBlogApi';
 
 const { getPosts, getPost, signUp, signIn, editUser, deletePost, likePost, dislikePost } = new RealworldBlogApi();
 
@@ -13,32 +13,31 @@ export const startLoadingAction = () => ({
 });
 
 export const SET_POSTS_ACTION = 'SET_POSTS_ACTION';
-export const setPostsAction = payload => ({
+export const setPostsAction = (payload) => ({
   type: SET_POSTS_ACTION,
   payload,
 });
 
 export const SET_POSTS_COUNT_ACTION = 'SET_POSTS_COUNT_ACTION';
-export const setPostsCountAction = payload => ({
+export const setPostsCountAction = (payload) => ({
   type: SET_POSTS_COUNT_ACTION,
   payload,
 });
 
-export const SET_CURRENT_PAGE_ACTION =
-  'SET_CURRENT_PAGE_ACTION';
-export const setCurrentPageAction = payload => ({
+export const SET_CURRENT_PAGE_ACTION = 'SET_CURRENT_PAGE_ACTION';
+export const setCurrentPageAction = (payload) => ({
   type: SET_CURRENT_PAGE_ACTION,
   payload,
 });
 
 export const SET_POST_ACTION = 'OPEN_POST_ACTION';
-export const setPostAction = payload => ({
+export const setPostAction = (payload) => ({
   type: SET_POST_ACTION,
   payload,
-})
+});
 
 export const SET_USER_ACTION = 'SET_USER_ACTION';
-export const setUserAction = payload => ({
+export const setUserAction = (payload) => ({
   type: SET_USER_ACTION,
   payload,
 });
@@ -49,7 +48,7 @@ export const setUserSignUpAction = () => ({
 });
 
 export const SET_SERVER_ERRORS_ACTION = 'SET_SERVER_ERRORS_ACTION';
-export const setServerErrorsAction = payload => ({
+export const setServerErrorsAction = (payload) => ({
   type: SET_SERVER_ERRORS_ACTION,
   payload,
 });
@@ -60,19 +59,18 @@ export const setUserLogOutAction = () => ({
 });
 
 export const SET_LIKE_POST_ACTION = 'SET_LIKE_POST_ACTION';
-export const setLikePostAction = payload => ({
+export const setLikePostAction = (payload) => ({
   type: SET_LIKE_POST_ACTION,
   payload,
 });
 
 export const SET_DISLIKE_POST_ACTION = 'SET_DISLIKE_POST_ACTION';
-export const setDislikePostAction = payload => ({
+export const setDislikePostAction = (payload) => ({
   type: SET_DISLIKE_POST_ACTION,
   payload,
 });
 
-
-export const getPostsThunk = (take, token) => async dispatch => {
+export const getPostsThunk = (take, token) => async (dispatch) => {
   dispatch(startLoadingAction());
   const { articles, articlesCount } = await getPosts(take, token);
   dispatch(setPostsAction(articles));
@@ -80,12 +78,12 @@ export const getPostsThunk = (take, token) => async dispatch => {
   dispatch(stopLoadingAction());
 };
 
-export const getPostThunk = (slug, token) => async dispatch => {
+export const getPostThunk = (slug, token) => async (dispatch) => {
   const { article } = await getPost(slug, token);
   dispatch(setPostAction(article));
 };
 
-export const signUpThunk = userData => async dispatch => {
+export const signUpThunk = (userData) => async (dispatch) => {
   const response = await signUp(userData);
   if (response.user) {
     dispatch(setUserAction(response.user));
@@ -94,10 +92,10 @@ export const signUpThunk = userData => async dispatch => {
   }
   if (response.errors) {
     dispatch(setServerErrorsAction(response.errors));
-  }   
+  }
 };
 
-export const signInThunk = userData => async dispatch => {
+export const signInThunk = (userData) => async (dispatch) => {
   const response = await signIn(userData);
   if (response.user) {
     dispatch(setUserAction(response.user));
@@ -106,10 +104,10 @@ export const signInThunk = userData => async dispatch => {
   }
   if (response.errors) {
     dispatch(setServerErrorsAction(response.errors));
-  }   
+  }
 };
 
-export const editUserThunk = (userData, token) => async dispatch => {
+export const editUserThunk = (userData, token) => async (dispatch) => {
   const response = await editUser(userData, token);
   if (response.user) {
     dispatch(setUserAction(response.user));
@@ -118,20 +116,20 @@ export const editUserThunk = (userData, token) => async dispatch => {
   }
   if (response.errors) {
     dispatch(setServerErrorsAction(response.errors));
-  }  
+  }
 };
 
-export const deletePostThunk = (slug, token) => async dispatch => {
+export const deletePostThunk = (slug, token) => async (dispatch) => {
   await deletePost(slug, token);
   dispatch(setPostAction(null));
 };
 
-export const likePostThunk = (slug, token) => async dispatch => {
+export const likePostThunk = (slug, token) => async (dispatch) => {
   const { article } = await likePost(slug, token);
   dispatch(setLikePostAction(article));
 };
 
-export const dislikePostThunk = (slug, token) => async dispatch => {
+export const dislikePostThunk = (slug, token) => async (dispatch) => {
   const { article } = await dislikePost(slug, token);
   dispatch(setDislikePostAction(article));
 };

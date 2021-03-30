@@ -12,11 +12,11 @@ export default class RealworldBlogApi {
         method: 'GET',
         headers: myHeaders,
       });
-      
+
       const body = await response.json();
-  
+
       return body;
-    }
+    };
 
     this.getPost = async (slug, token) => {
       const myHeaders = new Headers();
@@ -30,37 +30,37 @@ export default class RealworldBlogApi {
       const body = await response.json();
 
       return body;
-    }
+    };
 
-    this.signUp = async userData => {
+    this.signUp = async (userData) => {
       const user = { user: userData };
       const response = await fetch(`${this.API_BASE}users`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json; charset=utf-8'
+          'Content-Type': 'application/json; charset=utf-8',
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(user),
       });
 
       const body = await response.json();
 
       return body;
-    }
+    };
 
-    this.signIn = async userData => {
+    this.signIn = async (userData) => {
       const user = { user: userData };
       const response = await fetch(`${this.API_BASE}users/login`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json; charset=utf-8' 
+          'Content-Type': 'application/json; charset=utf-8',
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(user),
       });
 
       const body = await response.json();
 
       return body;
-    }
+    };
 
     this.editUser = async (userData, token) => {
       const user = { user: userData };
@@ -68,15 +68,15 @@ export default class RealworldBlogApi {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
-          'Authorization': `Token ${token}`,
+          Authorization: `Token ${token}`,
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(user),
       });
 
       const body = await response.json();
 
       return body;
-    }
+    };
 
     this.createPost = async (userData, token) => {
       const post = { article: userData };
@@ -84,15 +84,15 @@ export default class RealworldBlogApi {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
-          'Authorization': `Token ${token}`,
+          Authorization: `Token ${token}`,
         },
-        body: JSON.stringify(post)
+        body: JSON.stringify(post),
       });
 
       const body = await response.json();
 
       return body;
-    }
+    };
 
     this.updatePost = async (userData, slug, token) => {
       const post = { article: userData };
@@ -100,53 +100,52 @@ export default class RealworldBlogApi {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
-          'Authorization': `Token ${token}`,
+          Authorization: `Token ${token}`,
         },
-        body: JSON.stringify(post)
-      })
+        body: JSON.stringify(post),
+      });
 
       const body = await response.json();
 
       return body;
-    }
+    };
 
     this.deletePost = async (slug, token) => {
       await fetch(`${this.API_BASE}articles/${slug}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
-          'Authorization': `Token ${token}`,
-        }
+          Authorization: `Token ${token}`,
+        },
       });
-    }
+    };
 
     this.likePost = async (slug, token) => {
       const response = await fetch(`${this.API_BASE}articles/${slug}/favorite`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
-          'Authorization': `Token ${token}`,
-        }
+          Authorization: `Token ${token}`,
+        },
       });
 
       const body = response.json();
 
       return body;
-    }
+    };
 
     this.dislikePost = async (slug, token) => {
       const response = await fetch(`${this.API_BASE}articles/${slug}/favorite`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
-          'Authorization': `Token ${token}`,
-        }
+          Authorization: `Token ${token}`,
+        },
       });
 
       const body = response.json();
 
       return body;
-    }
-
+    };
   }
-};
+}

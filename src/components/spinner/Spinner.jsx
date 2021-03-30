@@ -9,6 +9,6 @@ const Spinner = () => (
   <div className={cn('spinner-wrapper')}>
     <Spin wrapperClassName={cn('spinner-wrapper')} size="large" />
   </div>
-)
+);
 
 export default Spinner;
