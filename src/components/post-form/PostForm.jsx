@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { v4 } from 'uuid';
 import classnames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import styles from './PostForm.module.scss';
@@ -30,11 +29,22 @@ const PostForm = ({ token, location, isSignUp }) => {
 
   const [tags, setTags] = useState(tagList || ['']);
   const [isPosted, setIsPosted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { register, handleSubmit, errors } = useForm();
-  const onSubmitPost = (formData) => createPost({ ...formData, tagList: tags }, token).then(() => setIsPosted(true));
-  const onSubmitEdit = (formData) =>
-    updatePost({ ...formData, tagList: tags }, slug, token).then(() => setIsPosted(true));
+  const onSubmitPost = (formData) => {
+    setIsLoading(true);
+    createPost({ ...formData, tagList: tags }, token)
+      .then(() => setIsLoading(false))
+      .then(() => setIsPosted(true));
+  };
+
+  const onSubmitEdit = (formData) => {
+    setIsLoading(true);
+    updatePost({ ...formData, tagList: tags }, slug, token)
+      .then(() => setIsLoading(false))
+      .then(() => setIsPosted(true));
+  };
 
   let onSubmit;
 
@@ -69,7 +79,8 @@ const PostForm = ({ token, location, isSignUp }) => {
   };
 
   const tagsList = tags.map((tag, index) => (
-    <div key={v4()} className={cn(`${CLASS_NAME}__tag-wrapper`)}>
+    // eslint-disable-next-line react/no-array-index-key
+    <div key={index} className={cn(`${CLASS_NAME}__tag-wrapper`)}>
       <input
         className={cn(`${CLASS_NAME}__tag`)}
         type="text"
@@ -143,7 +154,7 @@ const PostForm = ({ token, location, isSignUp }) => {
         </div>
       </label>
       <button type="submit" className={cn(`${CLASS_NAME}__button-send`)}>
-        Send
+        {isLoading ? 'Sending...' : 'Send'}
       </button>
     </form>
   );
