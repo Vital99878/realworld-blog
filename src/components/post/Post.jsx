@@ -1,12 +1,15 @@
+/* eslint-disable no-unused-expressions */
 import React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
-import styles from './Post.module.scss';
-import userAvatar from './img/Rectangle-1.png';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import PropTypes from 'prop-types';
+import userAvatar from './img/Rectangle-1.png';
+import styles from './Post.module.scss';
 import { likePostThunk, dislikePostThunk } from '../../redux/actions';
+
 
 const cn = classnames.bind(styles);
 
@@ -30,6 +33,8 @@ const Post = ({ post, isSignUp, likePost, dislikePost, token }) => {
             <button 
               className={cn(`${CLASS_NAME}__button-like`, favorited && `${CLASS_NAME}__button-like--liked`)} 
               disabled={!isSignUp}
+              type="button"
+              label="Like"
               onClick={() => toogleLike(slug, token)}
             />
             <span className={cn(`${CLASS_NAME}__likes`)}>{favoritesCount}</span>
@@ -62,3 +67,15 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);
+
+Post.defaultProps = {
+  token: '',
+}
+
+Post.propTypes = {
+  post: PropTypes.objectOf(PropTypes.any).isRequired,
+  isSignUp: PropTypes.bool.isRequired,
+  token: PropTypes.string,
+  likePost: PropTypes.func.isRequired,
+  dislikePost: PropTypes.func.isRequired,
+}

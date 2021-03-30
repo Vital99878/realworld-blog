@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import Post from '../post';
 import classnames from 'classnames/bind';
-import styles from './PostsList.module.scss';
 import { Pagination } from 'antd';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import styles from './PostsList.module.scss';
+import Post from '../post';
 import { getPostsThunk, setCurrentPageAction } from '../../redux/actions';
 import Spinner from '../spinner';
 
@@ -18,9 +19,7 @@ const PostsList = ({ posts, isLoading, getPosts, postsCount, currentPage, setCur
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ currentPage ])
 
-  const postsList = posts.map(post => {
-    return <Post post={post} key={post.slug} />
-  }) 
+  const postsList = posts.map(post => <Post post={post} key={post.slug} />) 
 
   return (
     <>
@@ -52,4 +51,13 @@ const mapDispatchToProps = {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsList);
+
+PostsList.propTypes = {
+  posts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  getPosts: PropTypes.func.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
+  postsCount: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+}
 

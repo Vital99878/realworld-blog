@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import classnames from 'classnames/bind';
+import PropTypes from 'prop-types';
 import { setUserLogOutAction } from '../../redux/actions';
 import styles from './Header.module.scss';
-import classnames from 'classnames/bind';
 import userAvatar from '../post/img/Rectangle-1.png';
 
 const cn = classnames.bind(styles);
@@ -27,7 +28,7 @@ const Header = ({ isSignUp, username, image, logOut }) => (
               <img className={cn("user__avatar")} src={image || userAvatar} alt=""/>
             </div>
           </Link>
-          <button onClick={logOut} className={cn("button", "button--log-out")}>Log Out</button>
+          <button type="button" onClick={logOut} className={cn("button", "button--log-out")}>Log Out</button>
         </>
       } 
     </header>
@@ -43,3 +44,15 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
+
+Header.defaultProps = {
+  username: '',
+  image: '',
+}
+
+Header.propTypes = {
+  isSignUp: PropTypes.bool.isRequired,
+  username: PropTypes.string,
+  image: PropTypes.string,
+  logOut: PropTypes.func.isRequired
+}

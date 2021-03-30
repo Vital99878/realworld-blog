@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import classnames from 'classnames/bind';
+import { message } from 'antd';
+import PropTypes from 'prop-types';
 import styles from '../Modal.module.scss';
 import Error from '../components/Error';
 import { editUserThunk } from '../../../redux/actions';
-import { message } from 'antd';
+
 
 const cn = classnames.bind(styles);
 
@@ -14,7 +16,7 @@ const CLASS_NAME = 'form';
 
 const Profile = ({ isSignUp, serverErrors, editUser, token, username, email, image }) => {
 
-  let [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = formData => {
@@ -79,7 +81,7 @@ const Profile = ({ isSignUp, serverErrors, editUser, token, username, email, ima
           defaultValue={image}
         />
       </label>
-      <button disabled={isLoading} className={cn(`${CLASS_NAME}__button`)}>{!isLoading ? 'Save' : 'Saving...'}</button>
+      <button type="submit" disabled={isLoading} className={cn(`${CLASS_NAME}__button`)}>{!isLoading ? 'Save' : 'Saving...'}</button>
     </form>
   )
 };
@@ -93,3 +95,21 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps,mapDispatchToProps)(Profile);
+
+Profile.defaultProps = {
+  serverErrors: {},
+  token: '',
+  username: '',
+  image: '',
+  email: '',
+}
+
+Profile.propTypes = {
+  isSignUp: PropTypes.bool.isRequired,
+  serverErrors: PropTypes.objectOf(),
+  token: PropTypes.string,
+  username: PropTypes.string,
+  email: PropTypes.string,
+  image: PropTypes.string,
+  editUser: PropTypes.func.isRequired,
+}

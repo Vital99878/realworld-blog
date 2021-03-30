@@ -1,8 +1,11 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { v4 } from 'uuid'
 import classnames from 'classnames/bind';
+import PropTypes from 'prop-types';
 import styles from './PostForm.module.scss';
 import Error from '../modals-pages/components';
 import RealworldBlogApi from '../../api/realworldBlogApi';
@@ -15,15 +18,13 @@ const CLASS_NAME = 'post-form';
 
 const PostForm = ({ token, location, isSignUp }) => {
 
-  
- 
   const isEditing = Boolean(location.state?.updatePost);
 
   const { body, description, slug, tagList, title } = location.state?.updatePost || 
     {author: null, body: null, description: null, slug: null, tagList: null, title: null};
 
   const [tags, setTags] =  useState(tagList || ['']);
-  let [isPosted, setIsPosted] = useState(false);
+  const [isPosted, setIsPosted] = useState(false);
 
   const { register, handleSubmit, errors } = useForm();
   const onSubmitPost = formData => createPost({...formData, tagList: tags}, token).then(() => setIsPosted(true));
@@ -62,7 +63,7 @@ const PostForm = ({ token, location, isSignUp }) => {
   }
 
   const tagsList = tags.map((tag, index) => 
-    <div key={index} className={cn(`${CLASS_NAME}__tag-wrapper`)}>
+    <div key={v4()} className={cn(`${CLASS_NAME}__tag-wrapper`)}>
       <input 
         className={cn(`${CLASS_NAME}__tag`)}
         type="text" 
@@ -120,8 +121,7 @@ const PostForm = ({ token, location, isSignUp }) => {
           placeholder="Text"
           ref={register({required: true})}
           defaultValue={body}
-        >
-        </textarea>
+         />
         {errors.body?.type === "required" && <Error text="Text is required" />}
       </label>
       <label className={cn(`${CLASS_NAME}__label`)}>
@@ -139,7 +139,7 @@ const PostForm = ({ token, location, isSignUp }) => {
           </button>
         </div>
       </label>
-      <button className={cn(`${CLASS_NAME}__button-send`)}>Send</button>
+      <button type="submit" className={cn(`${CLASS_NAME}__button-send`)}>Send</button>
     </form>
   );
 };
@@ -149,3 +149,13 @@ const mapStateToProps = ({ user }) => ({
 })
 
 export default connect(mapStateToProps)(PostForm);
+
+PostForm.defaultProps = {
+  token: '',
+}
+
+PostForm.propTypes = {
+  token: PropTypes.string,
+  location: PropTypes.objectOf(PropTypes.any).isRequired,
+  isSignUp: PropTypes.bool.isRequired,
+}

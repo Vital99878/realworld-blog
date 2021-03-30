@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import classnames from 'classnames/bind';
 import Header from '../header';
 import styles from './App.module.scss';
-import classnames from 'classnames/bind';
 import PostsList from '../posts-list';
-import PostPage from '../post-page/';
+import PostPage from "../post-page";
 import SignUp from '../modals-pages/sign-up';
 import SignIn from '../modals-pages/sign-in';
 import Profile from '../modals-pages/profile/Profile';

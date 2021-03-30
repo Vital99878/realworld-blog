@@ -1,20 +1,21 @@
 import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect , Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import classnames from 'classnames/bind';
+import PropTypes from 'prop-types';
 import { signUpThunk } from '../../../redux/actions';
 import Error from '../components';
-import classnames from 'classnames/bind';
 import styles from '../Modal.module.scss';
+
 
 const cn = classnames.bind(styles);
 
 const CLASS_NAME = 'form';
 
-const SignUp = ({ isSignUp, serverErrors, signUp  }) => { 
+const SignUp = ({ isSignUp, serverErrors, signUp }) => { 
 
-  let [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { register, handleSubmit, watch, errors } = useForm();
   const onSubmit = formData => {
@@ -96,7 +97,7 @@ const SignUp = ({ isSignUp, serverErrors, signUp  }) => {
           {errors.agreement?.type === "required" && <Error text="You must agree to the terms of the privacy policy." />}
         </div>
       </label>
-      <button disabled={isLoading} className={cn(`${CLASS_NAME}__button`)}>{!isLoading ? 'Create' : 'Creating...'}</button>
+      <button type="submit" disabled={isLoading} className={cn(`${CLASS_NAME}__button`)}>{!isLoading ? 'Create' : 'Creating...'}</button>
       <span className={cn(`${CLASS_NAME}__login`)}>Already have an account? <Link to="/sign-in">Sign In.</Link></span>
     </form>
   ) 
@@ -111,3 +112,14 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+
+SignUp.defaultProps = {
+  serverErrors: {},
+}
+
+SignUp.propTypes = {
+  isSignUp: PropTypes.bool.isRequired,
+  serverErrors: PropTypes.objectOf(),
+  signUp: PropTypes.func.isRequired,
+}
+

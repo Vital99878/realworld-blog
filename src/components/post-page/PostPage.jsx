@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
 import { Link, Redirect, useParams } from 'react-router-dom'
 import { connect } from 'react-redux';
@@ -5,12 +6,13 @@ import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
 import { format } from 'date-fns';
 import classnames from 'classnames/bind';
-import styles from '../post/Post.module.scss';
+import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
+import { Popconfirm } from 'antd';
+import styles from '../post/Post.module.scss';
 import userAvatar from '../post/img/Rectangle-1.png';
 import { getPostThunk, deletePostThunk, likePostThunk, dislikePostThunk } from '../../redux/actions';
 import Spinner from '../spinner';
-import { Popconfirm } from 'antd';
 
 const cn = classnames.bind(styles);
 const CLASS_NAME = 'post';
@@ -49,6 +51,8 @@ const PostPage = ({ openedPost, isSignUp, getPost, username, deletePost, likePos
             <button 
               className={cn(`${CLASS_NAME}__button-like`, openedPost.favorited && `${CLASS_NAME}__button-like--liked`)} 
               disabled={!isSignUp}
+              type="button"
+              label="Like"
               onClick={() => toogleLike(slug, token)}
             />
             <span className={cn(`${CLASS_NAME}__likes`)}>{favoritesCount}</span>
@@ -75,7 +79,7 @@ const PostPage = ({ openedPost, isSignUp, getPost, username, deletePost, likePos
             okText="Yes"
             cancelText="No"
           >
-            <button className={cn(`${CLASS_NAME}__button-delete`)}>Delete</button>
+            <button type="button" className={cn(`${CLASS_NAME}__button-delete`)}>Delete</button>
           </Popconfirm>
           <Link 
             to={{pathname: `/articles/${slug}/edit`, state: {updatePost: openedPost}}} 
@@ -103,3 +107,20 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostPage);
+
+PostPage.defaultProps = {
+  openedPost: {},
+  username: '',
+  token: '',
+}
+
+PostPage.propTypes = {
+  openedPost: PropTypes.objectOf(PropTypes.any),
+  isSignUp: PropTypes.bool.isRequired,
+  username: PropTypes.string,
+  token: PropTypes.string,
+  getPost: PropTypes.func.isRequired,
+  deletePost: PropTypes.func.isRequired,
+  likePost: PropTypes.func.isRequired,
+  dislikePost: PropTypes.func.isRequired,
+}

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect , Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import Error from '../components';
 import classnames from 'classnames/bind';
+import PropTypes from 'prop-types';
+import Error from '../components';
 import styles from '../Modal.module.scss';
 import { signInThunk } from '../../../redux/actions';
 
@@ -14,7 +14,7 @@ const CLASS_NAME = 'form';
 
 const SignIn = ({ isSignUp, serverErrors, signIn }) => {
 
-  let [isLoading, setIsLoading] = useState(false);  
+  const [isLoading, setIsLoading] = useState(false);  
 
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = formData => {
@@ -54,9 +54,9 @@ const SignIn = ({ isSignUp, serverErrors, signIn }) => {
         {errors.password?.type === "minLength" && <Error text="Your password needs to be at least 8 characters" />}
         {errors.password?.type === "required" && <Error text="Password is required" />}
       </label>
-      <button disabled={isLoading} className={cn(`${CLASS_NAME}__button`)}>{!isLoading ? 'Login' : 'Loggining...'}</button>
+      <button type="submit" disabled={isLoading} className={cn(`${CLASS_NAME}__button`)}>{!isLoading ? 'Login' : 'Loggining...'}</button>
       {serverErrors?.['email or password'] && <Error text={`Email or password ${serverErrors['email or password']}`} />}
-      <span className={cn(`${CLASS_NAME}__login`)}>Don't have an account? <Link to="/sign-up">Sign Up.</Link></span>
+      <span className={cn(`${CLASS_NAME}__login`)}>Don&apos;t have an account? <Link to="/sign-up">Sign Up.</Link></span>
     </form>
   )
 };
@@ -70,3 +70,13 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+
+SignIn.defaultProps = {
+  serverErrors: {},
+}
+
+SignIn.propTypes = {
+  isSignUp: PropTypes.bool.isRequired,
+  serverErrors: PropTypes.objectOf(),
+  signIn: PropTypes.func.isRequired,
+}
