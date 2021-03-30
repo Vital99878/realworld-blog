@@ -36,7 +36,7 @@ const Post = ({ post, isSignUp, likePost, dislikePost, token }) => {
               {title}
             </Link>
             <button
-              className={cn(`${CLASS_NAME}__button-like`, favorited && `${CLASS_NAME}__button-like--liked`)}
+              className={cn(`${CLASS_NAME}__button-like`, isSignUp && favorited && `${CLASS_NAME}__button-like--liked`)}
               disabled={!isSignUp}
               type="button"
               label="Like"

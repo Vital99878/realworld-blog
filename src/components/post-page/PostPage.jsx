@@ -52,7 +52,7 @@ const PostPage = ({ openedPost, isSignUp, getPost, username, deletePost, likePos
           <div className={cn(`${CLASS_NAME}__title-wrapper`)}>
             <h2 className={cn(`${CLASS_NAME}__title`)}>{title}</h2>
             <button
-              className={cn(`${CLASS_NAME}__button-like`, openedPost.favorited && `${CLASS_NAME}__button-like--liked`)}
+              className={cn(`${CLASS_NAME}__button-like`, isSignUp && openedPost.favorited && `${CLASS_NAME}__button-like--liked`)}
               disabled={!isSignUp}
               type="button"
               label="Like"
