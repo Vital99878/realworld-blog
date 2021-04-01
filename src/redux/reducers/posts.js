@@ -7,7 +7,7 @@ import {
   SET_POST_ACTION,
   SET_LIKE_POST_ACTION,
   SET_DISLIKE_POST_ACTION,
-} from '../actions';
+} from '../actions/postsActions';
 
 export const initialState = {
   isLoading: false,

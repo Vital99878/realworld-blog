@@ -3,11 +3,13 @@ import {
   SET_USER_ACTION,
   SET_SERVER_ERRORS_ACTION,
   SET_USER_LOG_OUT_ACTION,
-} from '../actions';
+} from '../actions/userActions';
 
 const userData = localStorage.getItem('user');
 
-export const initialState = userData ? {...JSON.parse(userData), isSignUp: true, serverErrors: null} : {isSignUp: false,serverErrors: null};
+export const initialState = userData
+  ? { ...JSON.parse(userData), isSignUp: true, serverErrors: null }
+  : { isSignUp: false, serverErrors: null };
 
 const user = (state = initialState, { type, payload }) => {
   switch (type) {

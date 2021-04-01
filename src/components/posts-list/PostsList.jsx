@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styles from './PostsList.module.scss';
 import Post from '../post';
-import { getPostsThunk, setCurrentPageAction } from '../../redux/actions';
+import { getPostsThunk, setCurrentPageAction } from '../../redux/actions/postsActions';
 import Spinner from '../spinner';
 
 const getSkipForPagination = (currentPage) => (currentPage - 1) * 5;

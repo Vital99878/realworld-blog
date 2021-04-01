@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames/bind';
 import PropTypes from 'prop-types';
-import { setUserLogOutAction } from '../../redux/actions';
+import { setUserLogOutAction } from '../../redux/actions/userActions';
 import styles from './Header.module.scss';
 import userAvatar from '../post/img/Rectangle-1.png';
 

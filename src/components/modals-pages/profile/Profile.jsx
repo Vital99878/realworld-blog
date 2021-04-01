@@ -8,7 +8,7 @@ import { message } from 'antd';
 import PropTypes from 'prop-types';
 import styles from '../Modal.module.scss';
 import Error from '../components/Error';
-import { editUserThunk } from '../../../redux/actions';
+import { editUserThunk } from '../../../redux/actions/userActions';
 
 const cn = classnames.bind(styles);
 
@@ -24,7 +24,7 @@ const Profile = ({ isSignUp, serverErrors, editUser, token, username, email, ima
       setIsLoading(false);
       data.user && message.info('Сhange successful!');
       data.errors && message.error('Validation error');
-    })
+    });
   };
 
   if (!isSignUp) {

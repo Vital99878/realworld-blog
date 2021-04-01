@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import PropTypes from 'prop-types';
 import userAvatar from './img/Rectangle-1.png';
 import styles from './Post.module.scss';
-import { likePostThunk, dislikePostThunk } from '../../redux/actions';
+import { likePostThunk, dislikePostThunk } from '../../redux/actions/postsActions';
 
 const cn = classnames.bind(styles);
 

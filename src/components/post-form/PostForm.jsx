@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import styles from './PostForm.module.scss';
 import Error from '../modals-pages/components';
 import RealworldBlogApi from '../../api/realworldBlogApi';
-import { getPostThunk, setPostAction } from '../../redux/actions';
+import { getPostThunk, setPostAction } from '../../redux/actions/postsActions';
 
 const { createPost, updatePost } = RealworldBlogApi;
 
@@ -24,8 +24,8 @@ const PostForm = ({ token, location, isSignUp, openedPost, getPost, setPost }) =
     if (isEditing) {
       getPost(slug, token);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { body, description, tagList, title } = openedPost || {
     body: null,
@@ -43,7 +43,7 @@ const PostForm = ({ token, location, isSignUp, openedPost, getPost, setPost }) =
     setIsLoading(true);
     createPost({ ...formData, tagList: tags }, token)
       .then(() => setIsLoading(false))
-      .then(() => setIsPosted(true))
+      .then(() => setIsPosted(true));
   };
 
   const onSubmitEdit = (formData) => {
@@ -176,7 +176,7 @@ const mapStateToProps = ({ user, posts }) => ({
 const mapDispatchToProps = {
   getPost: getPostThunk,
   setPost: setPostAction,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostForm);
 
@@ -186,7 +186,7 @@ PostForm.defaultProps = {
 
 PostForm.defaultProps = {
   openedPost: {},
-}
+};
 
 PostForm.propTypes = {
   token: PropTypes.string,

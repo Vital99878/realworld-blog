@@ -6,7 +6,7 @@ import classnames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import Error from '../components';
 import styles from '../Modal.module.scss';
-import { signInThunk } from '../../../redux/actions';
+import { signInThunk } from '../../../redux/actions/userActions';
 
 const cn = classnames.bind(styles);
 

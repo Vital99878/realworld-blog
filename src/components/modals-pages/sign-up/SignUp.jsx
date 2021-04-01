@@ -4,7 +4,7 @@ import { Redirect, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import classnames from 'classnames/bind';
 import PropTypes from 'prop-types';
-import { signUpThunk } from '../../../redux/actions';
+import { signUpThunk } from '../../../redux/actions/userActions';
 import Error from '../components';
 import styles from '../Modal.module.scss';
 

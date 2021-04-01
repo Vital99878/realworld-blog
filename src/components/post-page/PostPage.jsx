@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Popconfirm } from 'antd';
 import styles from '../post/Post.module.scss';
 import userAvatar from '../post/img/Rectangle-1.png';
-import { getPostThunk, deletePostThunk, likePostThunk, dislikePostThunk } from '../../redux/actions';
+import { getPostThunk, deletePostThunk, likePostThunk, dislikePostThunk } from '../../redux/actions/postsActions';
 import Spinner from '../spinner';
 
 const cn = classnames.bind(styles);
@@ -36,7 +36,7 @@ const PostPage = ({ openedPost, isSignUp, getPost, username, deletePost, likePos
 
   const toggleLike = (favorited) => {
     favorited ? dislikePost(slug, token) : likePost(slug, token);
-  }
+  };
 
   const { title, favoritesCount, tagList, author, createdAt, description, body } = openedPost;
   const tagsList = tagList.map((tag) => (
@@ -52,7 +52,10 @@ const PostPage = ({ openedPost, isSignUp, getPost, username, deletePost, likePos
           <div className={cn(`${CLASS_NAME}__title-wrapper`)}>
             <h2 className={cn(`${CLASS_NAME}__title`)}>{title}</h2>
             <button
-              className={cn(`${CLASS_NAME}__button-like`, isSignUp && openedPost.favorited && `${CLASS_NAME}__button-like--liked`)}
+              className={cn(
+                `${CLASS_NAME}__button-like`,
+                isSignUp && openedPost.favorited && `${CLASS_NAME}__button-like--liked`
+              )}
               disabled={!isSignUp}
               type="button"
               label="Like"
