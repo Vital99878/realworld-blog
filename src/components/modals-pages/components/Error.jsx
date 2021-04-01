@@ -10,5 +10,8 @@ const Error = ({ text }) => <span className={cn('error-text')}>{text}</span>;
 export default Error;
 
 Error.propTypes = {
-  text: PropTypes.string.isRequired,
+  text: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]).isRequired,
 };

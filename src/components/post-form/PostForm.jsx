@@ -1,28 +1,35 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import classnames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import styles from './PostForm.module.scss';
 import Error from '../modals-pages/components';
 import RealworldBlogApi from '../../api/realworldBlogApi';
+import { getPostThunk, setPostAction } from '../../redux/actions';
 
-const { createPost, updatePost } = new RealworldBlogApi();
+const { createPost, updatePost } = RealworldBlogApi;
 
 const cn = classnames.bind(styles);
 
 const CLASS_NAME = 'post-form';
 
-const PostForm = ({ token, location, isSignUp }) => {
-  const isEditing = Boolean(location.state?.updatePost);
+const PostForm = ({ token, location, isSignUp, openedPost, getPost, setPost }) => {
+  const isEditing = location.pathname !== '/new-article';
+  const { slug } = useParams();
 
-  const { body, description, slug, tagList, title } = location.state?.updatePost || {
-    author: null,
+  useEffect(() => {
+    if (isEditing) {
+      getPost(slug, token);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ ])
+
+  const { body, description, tagList, title } = openedPost || {
     body: null,
     description: null,
-    slug: null,
     tagList: null,
     title: null,
   };
@@ -36,14 +43,15 @@ const PostForm = ({ token, location, isSignUp }) => {
     setIsLoading(true);
     createPost({ ...formData, tagList: tags }, token)
       .then(() => setIsLoading(false))
-      .then(() => setIsPosted(true));
+      .then(() => setIsPosted(true))
   };
 
   const onSubmitEdit = (formData) => {
     setIsLoading(true);
     updatePost({ ...formData, tagList: tags }, slug, token)
       .then(() => setIsLoading(false))
-      .then(() => setIsPosted(true));
+      .then(() => setIsPosted(true))
+      .then(() => setPost(null));
   };
 
   let onSubmit;
@@ -160,18 +168,31 @@ const PostForm = ({ token, location, isSignUp }) => {
   );
 };
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ user, posts }) => ({
   ...user,
+  ...posts,
 });
 
-export default connect(mapStateToProps)(PostForm);
+const mapDispatchToProps = {
+  getPost: getPostThunk,
+  setPost: setPostAction,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostForm);
 
 PostForm.defaultProps = {
   token: '',
 };
 
+PostForm.defaultProps = {
+  openedPost: {},
+}
+
 PostForm.propTypes = {
   token: PropTypes.string,
   location: PropTypes.objectOf(PropTypes.any).isRequired,
   isSignUp: PropTypes.bool.isRequired,
+  openedPost: PropTypes.objectOf(PropTypes.any),
+  getPost: PropTypes.func.isRequired,
+  setPost: PropTypes.func.isRequired,
 };

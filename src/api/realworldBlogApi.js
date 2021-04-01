@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-expressions */
-export default class RealworldBlogApi {
+class RealworldBlogApi {
   constructor() {
     this.API_BASE = 'https://conduit.productionready.io/api/';
 
     this.getPosts = async (take, token) => {
       const myHeaders = new Headers();
       myHeaders.append('Content-Type', 'application/json; charset=utf-8');
-      token ? myHeaders.append('Authorization', `Token ${token}`) : null;
+      token ? myHeaders.append('Authorization', `Token ${token}`) : '';
 
       const response = await fetch(`${this.API_BASE}articles?limit=5&offset=${take}`, {
         method: 'GET',
@@ -21,7 +21,7 @@ export default class RealworldBlogApi {
     this.getPost = async (slug, token) => {
       const myHeaders = new Headers();
       myHeaders.append('Content-Type', 'application/json; charset=utf-8');
-      token ? myHeaders.append('Authorization', `Token ${token}`) : null;
+      token ? myHeaders.append('Authorization', `Token ${token}`) : '';
 
       const response = await fetch(`${this.API_BASE}articles/${slug}`, {
         method: 'GET',
@@ -148,4 +148,6 @@ export default class RealworldBlogApi {
       return body;
     };
   }
-}
+};
+
+export default new RealworldBlogApi();

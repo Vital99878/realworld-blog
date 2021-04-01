@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-return-assign */
 /* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
 import { Link, Redirect, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
-import gfm from 'remark-gfm';
 import { format } from 'date-fns';
 import classnames from 'classnames/bind';
 import PropTypes from 'prop-types';
@@ -23,7 +24,6 @@ const PostPage = ({ openedPost, isSignUp, getPost, username, deletePost, likePos
 
   useEffect(() => {
     getPost(slug, token).then(() => setIsLoading(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isLoading) {
@@ -34,9 +34,9 @@ const PostPage = ({ openedPost, isSignUp, getPost, username, deletePost, likePos
     return <Redirect to="/" />;
   }
 
-  let toogleLike;
-
-  openedPost.favorited ? (toogleLike = dislikePost) : (toogleLike = likePost);
+  const toggleLike = (favorited) => {
+    favorited ? dislikePost(slug, token) : likePost(slug, token);
+  }
 
   const { title, favoritesCount, tagList, author, createdAt, description, body } = openedPost;
   const tagsList = tagList.map((tag) => (
@@ -56,7 +56,7 @@ const PostPage = ({ openedPost, isSignUp, getPost, username, deletePost, likePos
               disabled={!isSignUp}
               type="button"
               label="Like"
-              onClick={() => toogleLike(slug, token)}
+              onClick={() => toggleLike(openedPost.favorited)}
             />
             <span className={cn(`${CLASS_NAME}__likes`)}>{favoritesCount}</span>
           </div>
@@ -94,7 +94,7 @@ const PostPage = ({ openedPost, isSignUp, getPost, username, deletePost, likePos
           </div>
         )}
       </div>
-      <ReactMarkdown plugins={[gfm]}>{body}</ReactMarkdown>
+      <ReactMarkdown>{body}</ReactMarkdown>
     </div>
   );
 };

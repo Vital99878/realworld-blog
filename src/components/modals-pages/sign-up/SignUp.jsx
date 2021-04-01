@@ -51,10 +51,11 @@ const SignUp = ({ isSignUp, serverErrors, signUp }) => {
           className={cn(`${CLASS_NAME}__input`, errors.email && `${CLASS_NAME}__input--error`)}
           type="email"
           name="email"
-          ref={register({ required: true })}
+          ref={register({ required: true, pattern: /.+@.+\..+/i })}
           placeholder="Email address"
         />
         {errors.email?.type === 'required' && <Error text="Email is required" />}
+        {errors.email?.type === 'pattern' && <Error text="Email is invalid" />}
         {serverErrors?.email && <Error text={serverErrors.email} />}
       </label>
       <label className={cn(`${CLASS_NAME}__label`)}>

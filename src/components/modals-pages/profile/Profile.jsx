@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -19,10 +20,11 @@ const Profile = ({ isSignUp, serverErrors, editUser, token, username, email, ima
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = (formData) => {
     setIsLoading(true);
-    editUser(formData, token).then(() => {
+    editUser(formData, token).then((data) => {
       setIsLoading(false);
-      message.info('Сhange successful!');
-    });
+      data.user && message.info('Сhange successful!');
+      data.errors && message.error('Validation error');
+    })
   };
 
   if (!isSignUp) {
@@ -51,10 +53,12 @@ const Profile = ({ isSignUp, serverErrors, editUser, token, username, email, ima
           className={cn(`${CLASS_NAME}__input`, errors.email && `${CLASS_NAME}__input--error`)}
           type="email"
           name="email"
-          ref={register({ required: true })}
+          ref={register({ required: true, pattern: /.+@.+\..+/i })}
           defaultValue={email}
         />
         {errors.email?.type === 'required' && <Error text="Email is required" />}
+        {errors.email?.type === 'pattern' && <Error text="Email is invalid" />}
+        {serverErrors?.email && <Error text={serverErrors.email} />}
       </label>
       <label className={cn(`${CLASS_NAME}__label`)}>
         <span className={cn(`${CLASS_NAME}__label-text`)}>New password</span>
@@ -78,6 +82,7 @@ const Profile = ({ isSignUp, serverErrors, editUser, token, username, email, ima
           ref={register()}
           defaultValue={image}
         />
+        {errors.image?.type === 'pattern' && <Error text="URL is invalid" />}
       </label>
       <button type="submit" disabled={isLoading} className={cn(`${CLASS_NAME}__button`)}>
         {!isLoading ? 'Save' : 'Saving...'}
@@ -106,7 +111,7 @@ Profile.defaultProps = {
 
 Profile.propTypes = {
   isSignUp: PropTypes.bool.isRequired,
-  serverErrors: PropTypes.objectOf(),
+  serverErrors: PropTypes.objectOf(PropTypes.any),
   token: PropTypes.string,
   username: PropTypes.string,
   email: PropTypes.string,
