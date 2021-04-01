@@ -79,7 +79,7 @@ const Profile = ({ isSignUp, serverErrors, editUser, token, username, email, ima
           type="url"
           name="image"
           placeholder="Avatar image"
-          ref={register()}
+          ref={register({ pattern: /^(https:|http:|www\.)\S*(.png|.jpeg|.jpg|.gif)/ })}
           defaultValue={image}
         />
         {errors.image?.type === 'pattern' && <Error text="URL is invalid" />}

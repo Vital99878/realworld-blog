@@ -148,6 +148,6 @@ class RealworldBlogApi {
       return body;
     };
   }
-};
+}
 
 export default new RealworldBlogApi();

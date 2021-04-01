@@ -5,16 +5,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styles from './PostsList.module.scss';
 import Post from '../post';
-import { getPostsThunk, setCurrentPageAction } from '../../redux/actions/postsActions';
+import { getPostsThunk, setCurrentPageAction, setPostAction } from '../../redux/actions/postsActions';
 import Spinner from '../spinner';
 
 const getSkipForPagination = (currentPage) => (currentPage - 1) * 5;
 
 const cn = classnames.bind(styles);
 
-const PostsList = ({ posts, isLoading, getPosts, postsCount, currentPage, setCurrentPage, token }) => {
+const PostsList = ({ posts, isLoading, getPosts, postsCount, currentPage, setCurrentPage, token, setPost }) => {
   useEffect(() => {
-    getPosts(getSkipForPagination(currentPage), token);
+    getPosts(getSkipForPagination(currentPage), token).then(() => setPost(null));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
@@ -46,6 +46,7 @@ const mapStateToProps = ({ posts, user }) => ({
 
 const mapDispatchToProps = {
   getPosts: getPostsThunk,
+  setPost: setPostAction,
   setCurrentPage: setCurrentPageAction,
 };
 
@@ -59,6 +60,7 @@ PostsList.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.object).isRequired,
   isLoading: PropTypes.bool.isRequired,
   getPosts: PropTypes.func.isRequired,
+  setPost: PropTypes.func.isRequired,
   setCurrentPage: PropTypes.func.isRequired,
   postsCount: PropTypes.number.isRequired,
   currentPage: PropTypes.number.isRequired,

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -18,16 +19,20 @@ const CLASS_NAME = 'post-form';
 
 const PostForm = ({ token, location, isSignUp, openedPost, getPost, setPost }) => {
   const isEditing = location.pathname !== '/new-article';
+  let post = openedPost;
   const { slug } = useParams();
 
   useEffect(() => {
     if (isEditing) {
       getPost(slug, token);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { body, description, tagList, title } = openedPost || {
+  if (location.pathname === '/new-article') {
+    post = null;
+  }
+
+  const { body, description, tagList, title } = post || {
     body: null,
     description: null,
     tagList: null,
@@ -36,20 +41,20 @@ const PostForm = ({ token, location, isSignUp, openedPost, getPost, setPost }) =
 
   const [tags, setTags] = useState(tagList || ['']);
   const [isPosted, setIsPosted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSending, setisSending] = useState(false);
 
   const { register, handleSubmit, errors } = useForm();
   const onSubmitPost = (formData) => {
-    setIsLoading(true);
+    setisSending(true);
     createPost({ ...formData, tagList: tags }, token)
-      .then(() => setIsLoading(false))
+      .then(() => setisSending(false))
       .then(() => setIsPosted(true));
   };
 
   const onSubmitEdit = (formData) => {
-    setIsLoading(true);
+    setisSending(true);
     updatePost({ ...formData, tagList: tags }, slug, token)
-      .then(() => setIsLoading(false))
+      .then(() => setisSending(false))
       .then(() => setIsPosted(true))
       .then(() => setPost(null));
   };
@@ -162,7 +167,7 @@ const PostForm = ({ token, location, isSignUp, openedPost, getPost, setPost }) =
         </div>
       </label>
       <button type="submit" className={cn(`${CLASS_NAME}__button-send`)}>
-        {isLoading ? 'Sending...' : 'Send'}
+        {isSending ? 'Sending...' : 'Send'}
       </button>
     </form>
   );
